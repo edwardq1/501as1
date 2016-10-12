@@ -1,47 +1,34 @@
 import java.util.Scanner;
 public class Manager
 {
-	public static void main(String[] args)
+	private int numberOfRounds;
+	private int highAttacks;
+	private int lowAttacks;
+	private int mediumAttacks;
+	public Manager(){
+		numberOfRounds = 0;
+		highAttacks = 0;
+		lowAttacks = 0;
+		mediumAttacks = 0;
+	}
+	public void startFightSimulation()
 	{	
-		int numberOfRounds=0;
-		//asks the user for input rounds and stores that number into rounds
-		Scanner scanner= new Scanner(System.in);
+		//ask for user input
 		System.out.print("How many rounds do you want(1-100)? ");
-		numberOfRounds= scanner.nextInt();
-		
-		//asks the user for probability of high attacks
+		numberOfRounds= askUserInput();
 		System.out.print("What probability of high attacks do you want? ");
-		int highAttacks= scanner.nextInt();
-		
-		
-		//asks the user for probability of low attacks
+		highAttacks= askUserInput();		
 		System.out.print("What probability of low attacks do you want? ");
-		int lowAttacks= scanner.nextInt();
-		
-		
-		//asks the user for probability of medium attacks
+		lowAttacks= askUserInput();
 		System.out.print("What probability of medium attacks do you want? ");
-		int mediumAttacks= scanner.nextInt();
+		mediumAttacks= askUserInput();
 		
-		
-		//this if statement is to ensure that the rounds are in range of 1-100. 
-		if ((numberOfRounds<1) || (numberOfRounds>100))
-		{
-			numberOfRounds=10;
-			System.out.print("The rounds you have entered is not in range, by default the rounds is set to 10.");
-		}
 		//instantiates the Attacker class and Defender class
 		Attacker attacker = new Attacker();
 		Defender defender = new Defender();
 		ImprovedDefender improvedDefender = new ImprovedDefender();
-		attacker.validateUserInput(highAttacks,lowAttacks,mediumAttacks);
-		//If the probability the user inputs doesnt equal 100, it will set a default value
-		if ((highAttacks+lowAttacks+mediumAttacks) != 100)
-		{
-			highAttacks=attacker.getDefaultHighAttack();
-			lowAttacks=attacker.getDefaultLowAttack();
-			mediumAttacks=attacker.getDefaultMediumAttack();
-		}
+		validateUserInput(highAttacks,lowAttacks,mediumAttacks, attacker);
+		
 		//
 		while (numberOfRounds > 0)
 		{
@@ -49,12 +36,40 @@ public class Manager
 			defender.getDefense(numberOfRounds, attacker.getAttack(), improvedDefender, defender);
 			numberOfRounds= numberOfRounds -1;
 		}
-		
-		
 		defender.printResults(attacker);
-			
-	
-		
 	}
+	//This method is the check and see if the user entered invalid information
+	// and will set it to default percentages if the user did enter a value>100 or less than
+	// 100.
+	public void validateUserInput(int highAttackPercentage, int lowAttackPercentage, int mediumAttackPercentage, Attacker attacker)
+	{
+		int sum = highAttackPercentage + lowAttackPercentage + mediumAttackPercentage;
+		if ((sum) != 100)
+		{
+			System.out.println("The percentage of attacks you've entered do not equal 100%.");
+			System.out.println("By default, your attacks will now have a equal probability of each attack(33% each).");
+			highAttacks=attacker.getDefaultHighAttack();
+			lowAttacks=attacker.getDefaultLowAttack();
+			mediumAttacks=attacker.getDefaultMediumAttack();
+			System.out.println("You have " + highAttackPercentage + "% high attacks.");
+			System.out.println("You have " + lowAttackPercentage + "% low attacks.");
+			System.out.println("You have " + mediumAttackPercentage + "% medium attacks.");
+		}
+	}
+	
+	public int askUserInput(){
+		Scanner scanner= new Scanner(System.in);
+		return scanner.nextInt();
+	}
+	
+	public void validateRounds(){
+		//this if statement is to ensure that the rounds are in range of 1-100. 
+		if ((numberOfRounds<1) || (numberOfRounds>100)){
+			numberOfRounds=10;
+			System.out.print("The rounds you have entered is not in range, by default the rounds is set to 10.");
+		}
+	}
+	
+	
 	
 }

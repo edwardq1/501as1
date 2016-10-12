@@ -1,21 +1,19 @@
 import java.util.Random;
 public class Attacker
 {
-	private int SUM;
 	private String typeAttack;
-	private int percentageOfHighAttacks;
-	private int percentageOfLowAttacks;
-	private int percentageOfMediumAttacks;
+	private int numberOfHighAttacks;
+	private int numberOfLowAttacks;
+	private int numberOfMediumAttacks;
 	private Random generator;
 
 	// default values for SUM and typeAttack
 	public Attacker()
 	{
-		SUM=0;
 		typeAttack="";
-		percentageOfHighAttacks=0;
-		percentageOfLowAttacks=0;
-		percentageOfMediumAttacks=0;
+		numberOfHighAttacks=0;
+		numberOfLowAttacks=0;
+		numberOfMediumAttacks=0;
 		generator = new Random();
 	}
 		
@@ -38,45 +36,26 @@ public class Attacker
 			typeAttack= "Medium";
 	}
 
-	//This method is the check and see if the user entered invalid information
-	// and will set it to default percentages if the user did enter a value>100 or less than
-	// 100.
-	public void validateUserInput(int highAttackPercentage, int lowAttackPercentage, int mediumAttackPercentage)
-	{
-		SUM = highAttackPercentage + lowAttackPercentage + mediumAttackPercentage;
-		if (SUM != 100)
-		{
-			System.out.println("The percentage of attacks you've entered do not equal 100%.");
-			System.out.println("By default, your attacks will now have a equal probability of each attack(33% each).");
-			highAttackPercentage = 33;
-			lowAttackPercentage = 33;
-			mediumAttackPercentage = 34;
-			System.out.println("You have " + highAttackPercentage + "% high attacks.");
-			System.out.println("You have " + lowAttackPercentage + "% low attacks.");
-			System.out.println("You have " + mediumAttackPercentage + "% medium attacks.");
-		}
-	}
-
 	public void incrementAttack(){
 		if ("High" == typeAttack)
-			percentageOfHighAttacks++;
+			numberOfHighAttacks++;
 		else if ("Low" == typeAttack)
-			percentageOfLowAttacks++;
+			numberOfLowAttacks++;
 		else
-			percentageOfMediumAttacks++;
+			numberOfMediumAttacks++;
 	}
 	
 	public int getLowAttacks()
 	{
-		return(percentageOfLowAttacks);
+		return(numberOfLowAttacks);
 	}
 	public int getHighAttacks()
 	{
-		return(percentageOfHighAttacks);
+		return(numberOfHighAttacks);
 	}
 	public int getMediumAttacks()
 	{
-		return(percentageOfMediumAttacks);
+		return(numberOfMediumAttacks);
 	}
 	//Returns the type of attack
 	public String getAttack()
