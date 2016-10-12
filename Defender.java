@@ -5,9 +5,9 @@ public class Defender {
 	private int numberOfAttacksHit;
 	private int numberOfAttacksBlocked;
 	private int roundTracking;
-	private int percentageOfHighBlocks;
-	private int percentageOfLowBlocks;
-	private int percentageOfMediumBlocks;
+	private int numberOfHighBlocks;
+	private int numberOfLowBlocks;
+	private int numberOfMediumBlocks;
 	private Random generator;
 
 	public Defender(){
@@ -15,9 +15,9 @@ public class Defender {
 		numberOfAttacksHit= 0;
 		numberOfAttacksBlocked= 0;
 		roundTracking= 0;
-		percentageOfHighBlocks=0;
-		percentageOfLowBlocks=0;
-		percentageOfMediumBlocks=0;
+		numberOfHighBlocks=0;
+		numberOfLowBlocks=0;
+		numberOfMediumBlocks=0;
 		generator = new Random();
 	}
 		//this method will generate a value between 1-3 and determine whether its a high
@@ -39,11 +39,11 @@ public class Defender {
 	
 	public void improvedDefenseMove(String attack){
 		if (attack == "High")
-			percentageOfHighBlocks++;
+			numberOfHighBlocks++;
 		else if (attack == "Low")
-			percentageOfLowBlocks++;
+			numberOfLowBlocks++;
 		else if (attack == "Medium")
-			percentageOfMediumBlocks++;
+			numberOfMediumBlocks++;
 	}
 	
 	public void determineDefenseMove(){
@@ -51,15 +51,15 @@ public class Defender {
 		switch(defense){
 		case 1: defense = 1;
 				printDefense = "High";
-				percentageOfHighBlocks++;
+				numberOfHighBlocks++;
 				break;
 		case 2: defense = 2;
 				printDefense = "Low";
-				percentageOfLowBlocks++;
+				numberOfLowBlocks++;
 				break;
 		case 3: defense = 3;
 				printDefense = "Medium";
-				percentageOfMediumBlocks++;
+				numberOfMediumBlocks++;
 				break;
 		}
 	}
@@ -86,17 +86,17 @@ public class Defender {
 	{
 	//This will calculate the percentage of attacks and defences(High, medium and low percentages)
 		String percent= "%";
-		int printpercentdefH= (percentageOfHighBlocks*100)/roundTracking;
-		int printpercentdefM= (percentageOfMediumBlocks*100)/roundTracking;
-		int printpercentdefL= (percentageOfLowBlocks*100)/roundTracking;
-		int printpercenthigh= (attacker.getHighAttacks()*100)/roundTracking;
-		int printpercentmed= (attacker.getMediumAttacks()*100)/roundTracking;
-		int printpercentlow= (attacker.getLowAttacks()*100)/roundTracking;
+		numberOfHighBlocks = (numberOfHighBlocks*100)/roundTracking;
+		numberOfMediumBlocks= (numberOfMediumBlocks*100)/roundTracking;
+		numberOfLowBlocks= (numberOfLowBlocks*100)/roundTracking;
+		int highAttack= (attacker.getHighAttacks()*100)/roundTracking;
+		int mediumAttack = (attacker.getMediumAttacks()*100)/roundTracking;
+		int lowAttack = (attacker.getLowAttacks()*100)/roundTracking;
 	
 		
 		System.out.printf("Number of hits: %-5d Number of hits blocked: %d\n", numberOfAttacksHit, numberOfAttacksBlocked);
-		System.out.printf("Attacker proportions: Low: %d%-5s High: %d%-5s Medium: %d%-5s\n", printpercentlow, percent, printpercenthigh,percent,printpercentmed,percent);
-		System.out.printf("Defender proportions: Low: %d%-5s High: %d%-5s Medium: %d%-5s\n", printpercentdefL,percent, printpercentdefH,percent, printpercentdefM, percent);
+		System.out.printf("Attacker proportions: Low: %d%-5s High: %d%-5s Medium: %d%-5s\n", lowAttack, percent, highAttack,percent,mediumAttack,percent);
+		System.out.printf("Defender proportions: Low: %d%-5s High: %d%-5s Medium: %d%-5s\n", numberOfLowBlocks,percent, numberOfHighBlocks,percent, numberOfMediumBlocks, percent);
 	
 	}
 	
