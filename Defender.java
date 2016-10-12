@@ -39,19 +39,18 @@ public class Defender {
 	//then it will start recognizing the attacks and be smart about the defence moves.
 	public void getDefense(int rounds, String attack)
 	{
-		if (roundTracking < 20)
-		{
+		if (roundTracking < 20) {
 			trackEnemyAttacks(rounds,attack);
 			determineDefenseMove();
 			determineHitOrBlock(attack);
 		}
-		else
-		{
+		else{
 			trackEnemyAttacks(rounds, attack);
 			determineHitOrBlock(attack);
 			improvedDefenseMove(attack);
 		}
 	}
+	
 	public void improvedDefenseMove(String attack){
 		if (attack == "High")
 			percentageOfHighBlocks++;
@@ -60,6 +59,7 @@ public class Defender {
 		else if (attack == "Medium")
 			percentageOfMediumBlocks++;
 	}
+	
 	public void determineDefenseMove(){
 		int defense = generator.nextInt(4-1) + 1;
 		switch(defense){
@@ -82,34 +82,28 @@ public class Defender {
 	//move is made.
 	public void determineHitOrBlock(String att)
 	{
-		if (printDefense != att)
-		{	
+		if (printDefense != att){	
 			numberOfAttacksHit++;
 			roundTracking++;
-			if ("High" == att)
-				percentageOfHighAttacks++;
-			if ("Low" == att)
-				percentageOfLowAttacks++;
-			if ("Medium" == att)
-				percentageOfMediumAttacks++;
-		}
-		else
+			incrementAttack(att);
+		} else
 		{
 			numberOfAttacksBlocked++;
 			roundTracking++;
-			if ("High" == att)
-				percentageOfHighAttacks++;
-			if ("Low" == att)
-				percentageOfLowAttacks++;
-			if ("Medium" == att)
-				percentageOfMediumAttacks++;
+			incrementAttack(att);
 		}
 		
 		System.out.printf("Round:%-5d Attacker: %-7s Defender: %s\n", roundTracking,att, printDefense);
-	
 	}
-	
-	
+
+	public void incrementAttack(String attack){
+		if ("High" == attack)
+			percentageOfHighAttacks++;
+		else if ("Low" == attack)
+			percentageOfLowAttacks++;
+		else
+			percentageOfMediumAttacks++;
+	}
 	
 	//This method is to print the number of hits/blocks after the # of rounds.
 	//Will also print the proportions of the defender and attacker
@@ -136,25 +130,24 @@ public class Defender {
 	// and determine the highest possibility for the defensive move. 
 	public void trackEnemyAttacks(int round, String attack)
 	{
-
 		if ((round%20) == 0)
 			calculateImprovedBlocks();
 		if (round >= 20)
-			improvedBlocks();
+			determineImprovedBlocks();
 		if (attack == "High")
 			trackEnemyHighAttack++;
 		else if (attack == "Low")
 			trackEnemyLowAttack++;
 	}
-	
+	//Every 20 rounds, it will calculate a better blocks based off the previous 20 rounds
 	public void calculateImprovedBlocks(){
 		lowAttackPercentage=(trackEnemyLowAttack*100)/20;
 		highAttackPercentage=(trackEnemyHighAttack*100)/20;
 		trackEnemyHighAttack=0;
 		trackEnemyLowAttack=0;
 	}
-	
-	public void improvedBlocks(){
+	//Determine the attack based on the knowledge of the last 20 rounds
+	public void determineImprovedBlocks(){
 		int defense = generator.nextInt(99) + 1;
 		if (defense>0 && defense<highAttackPercentage)
 			printDefense= "High";

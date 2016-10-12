@@ -5,26 +5,23 @@ public class Manager
 	{	
 		int numberOfRounds=0;
 		//asks the user for input rounds and stores that number into rounds
-		Scanner moves= new Scanner(System.in);
+		Scanner scanner= new Scanner(System.in);
 		System.out.print("How many rounds do you want(1-100)? ");
-		numberOfRounds= moves.nextInt();
+		numberOfRounds= scanner.nextInt();
 		
-		Scanner high = new Scanner(System.in);
 		//asks the user for probability of high attacks
 		System.out.print("What probability of high attacks do you want? ");
-		int highAttacks= high.nextInt();
+		int highAttacks= scanner.nextInt();
 		
 		
 		//asks the user for probability of low attacks
-		Scanner low = new Scanner(System.in);
 		System.out.print("What probability of low attacks do you want? ");
-		int lowAttacks= low.nextInt();
+		int lowAttacks= scanner.nextInt();
 		
 		
 		//asks the user for probability of medium attacks
-		Scanner medium = new Scanner(System.in);
 		System.out.print("What probability of medium attacks do you want? ");
-		int mediumAttacks= medium.nextInt();
+		int mediumAttacks= scanner.nextInt();
 		
 		
 		//this if statement is to ensure that the rounds are in range of 1-100. 
