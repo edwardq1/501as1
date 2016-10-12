@@ -34,25 +34,26 @@ public class Manager
 			System.out.print("The rounds you have entered is not in range, by default the rounds is set to 10.");
 		}
 		//instantiates the Attacker class and Defender class
-		AttackDefender temp = new AttackDefender();
-		temp.validateUserInput(highAttacks,lowAttacks,mediumAttacks);
+		Attacker attacker = new Attacker();
+		Defender defender = new Defender();
+		attacker.validateUserInput(highAttacks,lowAttacks,mediumAttacks);
 		//If the probability the user inputs doesnt equal 100, it will set a default value
 		if ((highAttacks+lowAttacks+mediumAttacks) != 100)
 		{
-			highAttacks=temp.getDefaultHighAttack();
-			lowAttacks=temp.getDefaultLowAttack();
-			mediumAttacks=temp.getDefaultMediumAttack();
+			highAttacks=attacker.getDefaultHighAttack();
+			lowAttacks=attacker.getDefaultLowAttack();
+			mediumAttacks=attacker.getDefaultMediumAttack();
 		}
 		//
 		while (numberOfRounds > 0)
 		{
-			temp.generateAttack(highAttacks,lowAttacks,mediumAttacks);
-			temp.getDefense(numberOfRounds, temp.getAttack());
+			attacker.generateAttack(highAttacks,lowAttacks,mediumAttacks);
+			defender.getDefense(numberOfRounds, attacker.getAttack());
 			numberOfRounds= numberOfRounds -1;
 		}
 		
 		
-		temp.printResults();
+		defender.printResults();
 			
 	
 		
