@@ -4,12 +4,14 @@ public class Attacker
 {
 	private int SUM;
 	private String typeAttack;
+	private Random generator;
 
 	// default values for SUM and typeAttack
 	public Attacker()
 	{
 		SUM=0;
 		typeAttack="";
+		generator = new Random();
 	}
 		
 		
@@ -17,23 +19,18 @@ public class Attacker
 	// percentages. 
 	public void generateAttack(int highAttackProbability, int lowAttackProbability, int mediumAttackProbability)
 	{
-		Random generator = new Random();
-		int determineAttack = generator.nextInt(99) + 1;
-		if (determineAttack > 0 && determineAttack < highAttackProbability)
-		{
-			typeAttack= "High";
-		}
-		if (determineAttack > (highAttackProbability) && determineAttack < (highAttackProbability + lowAttackProbability))
-		{
-			typeAttack= "Low";
-		}
-		if (determineAttack > (highAttackProbability+lowAttackProbability) && determineAttack < (highAttackProbability+lowAttackProbability+mediumAttackProbability))
-		{
-			typeAttack= "Medium";
-		}
+		int attack = generator.nextInt(99) + 1;
+		determineAttack(highAttackProbability, lowAttackProbability, mediumAttackProbability, attack);
 	}
 	
-
+	public void determineAttack(int highAttack, int lowAttack, int mediumAttack, int attack){
+		if (attack > 0 && attack < highAttack)
+			typeAttack= "High";
+		else if (attack > (highAttack) && attack < (highAttack + lowAttack))
+			typeAttack= "Low";
+		else if (attack > (highAttack+lowAttack) && attack < 100)
+			typeAttack= "Medium";
+	}
 
 	//This method is the check and see if the user entered invalid information
 	// and will set it to default percentages if the user did enter a value>100 or less than

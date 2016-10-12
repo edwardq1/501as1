@@ -7,21 +7,22 @@ public class Defender {
 	private int roundTracking;
 	private int trackEnemyHighAttack;
 	private int trackEnemyLowAttack;
-	private int trackEnemyMediumAttack;
 	private int percentageOfHighAttacks;
 	private int percentageOfLowAttacks;
 	private int percentageOfMediumAttacks;
 	private int percentageOfHighBlocks;
 	private int percentageOfLowBlocks;
 	private int percentageOfMediumBlocks;
-	
+	private int highAttackPercentage;
+	private int	lowAttackPercentage;
+	private Random generator;
+
 	public Defender(){
 		printDefense ="";
 		numberOfAttacksHit= 0;
 		numberOfAttacksBlocked= 0;
 		roundTracking= 0;
 		trackEnemyHighAttack=0;
-		trackEnemyMediumAttack=0;
 		trackEnemyLowAttack=0;
 		percentageOfHighAttacks=0;
 		percentageOfLowAttacks=0;
@@ -29,6 +30,9 @@ public class Defender {
 		percentageOfHighBlocks=0;
 		percentageOfLowBlocks=0;
 		percentageOfMediumBlocks=0;
+		highAttackPercentage = 0;
+		lowAttackPercentage =0;
+		generator = new Random();
 	}
 		//this method will generate a value between 1-3 and determine whether its a high
 	//low or medium defence. It will only random generate a defence move 20 times 
@@ -37,51 +41,42 @@ public class Defender {
 	{
 		if (roundTracking < 20)
 		{
-			Random generator = new Random();
-			int defense = generator.nextInt(4-1) + 1;
-			if (defense == 1)
-			{
-				printDefense = "High";
-				percentageOfHighBlocks++;
-	
-			}
-		
-			if (defense == 2)
-			{
-				printDefense = "Low";
-				percentageOfLowBlocks++;
-	
-			}
-		
-			if (defense == 3)
-			{
-				printDefense = "Medium";
-				percentageOfMediumBlocks++;
-			}
-			determineHitOrBlock(attack);
 			trackEnemyAttacks(rounds,attack);
+			determineDefenseMove();
+			determineHitOrBlock(attack);
 		}
 		else
 		{
 			trackEnemyAttacks(rounds, attack);
 			determineHitOrBlock(attack);
-			if (attack == "High")
-			{
-				percentageOfHighBlocks++;
-			}
-			if (attack == "Low")
-			{
-				percentageOfLowBlocks++;
-			}
-			if (attack == "Medium")
-			{
-				percentageOfMediumBlocks++;
-			}
+			improvedDefenseMove(attack);
 		}
-		
 	}
-	
-	
+	public void improvedDefenseMove(String attack){
+		if (attack == "High")
+			percentageOfHighBlocks++;
+		else if (attack == "Low")
+			percentageOfLowBlocks++;
+		else if (attack == "Medium")
+			percentageOfMediumBlocks++;
+	}
+	public void determineDefenseMove(){
+		int defense = generator.nextInt(4-1) + 1;
+		switch(defense){
+		case 1: defense = 1;
+				printDefense = "High";
+				percentageOfHighBlocks++;
+				break;
+		case 2: defense = 2;
+				printDefense = "Low";
+				percentageOfLowBlocks++;
+				break;
+		case 3: defense = 3;
+				printDefense = "Medium";
+				percentageOfMediumBlocks++;
+				break;
+		}
+	}
 	
 	//This counts the number of hits/blocks and prints out what round, attack and defence
 	//move is made.
@@ -89,37 +84,25 @@ public class Defender {
 	{
 		if (printDefense != att)
 		{	
-			numberOfAttacksHit= numberOfAttacksHit + 1;
-			roundTracking=roundTracking + 1;
+			numberOfAttacksHit++;
+			roundTracking++;
 			if ("High" == att)
-			{
 				percentageOfHighAttacks++;
-			}
 			if ("Low" == att)
-			{
 				percentageOfLowAttacks++;
-			}
 			if ("Medium" == att)
-			{
 				percentageOfMediumAttacks++;
-			}
 		}
 		else
 		{
-			numberOfAttacksBlocked= numberOfAttacksBlocked + 1;
-			roundTracking=roundTracking + 1;
+			numberOfAttacksBlocked++;
+			roundTracking++;
 			if ("High" == att)
-			{
 				percentageOfHighAttacks++;
-			}
 			if ("Low" == att)
-			{
 				percentageOfLowAttacks++;
-			}
 			if ("Medium" == att)
-			{
 				percentageOfMediumAttacks++;
-			}
 		}
 		
 		System.out.printf("Round:%-5d Attacker: %-7s Defender: %s\n", roundTracking,att, printDefense);
@@ -153,48 +136,32 @@ public class Defender {
 	// and determine the highest possibility for the defensive move. 
 	public void trackEnemyAttacks(int round, String attack)
 	{
-		
+
 		if ((round%20) == 0)
-		{
-			trackEnemyLowAttack=(trackEnemyLowAttack*100)/20;
-			trackEnemyMediumAttack=(trackEnemyMediumAttack*100)/20;
-			trackEnemyHighAttack=(trackEnemyHighAttack*100)/20;
-			Random generator = new Random();
-			int defense = generator.nextInt(99) + 1;
-			if (defense>0 && defense<trackEnemyHighAttack)
-			{
-				printDefense= "High";
-			}
-			else if (defense>trackEnemyHighAttack && defense<(trackEnemyHighAttack+trackEnemyLowAttack))
-			{
-				printDefense= "Low";
-	
-			}
-			else if (defense>(trackEnemyHighAttack+trackEnemyLowAttack) && defense<(trackEnemyHighAttack+trackEnemyLowAttack+trackEnemyMediumAttack))
-			{
-				printDefense = "Medium";
-			}
-			trackEnemyHighAttack=0;
-			trackEnemyLowAttack=0;
-			trackEnemyMediumAttack=0;
-		
-		}
-	
-		else if (attack == "High")
-		{
+			calculateImprovedBlocks();
+		if (round >= 20)
+			improvedBlocks();
+		if (attack == "High")
 			trackEnemyHighAttack++;
-		}
 		else if (attack == "Low")
-		{
 			trackEnemyLowAttack++;
-		}
-		else if (attack == "Medium")
-		{
-			trackEnemyMediumAttack++;
-		}
-			
+	}
 	
+	public void calculateImprovedBlocks(){
+		lowAttackPercentage=(trackEnemyLowAttack*100)/20;
+		highAttackPercentage=(trackEnemyHighAttack*100)/20;
+		trackEnemyHighAttack=0;
+		trackEnemyLowAttack=0;
+	}
 	
+	public void improvedBlocks(){
+		int defense = generator.nextInt(99) + 1;
+		if (defense>0 && defense<highAttackPercentage)
+			printDefense= "High";
+		else if (defense>highAttackPercentage && defense<(highAttackPercentage+lowAttackPercentage))
+			printDefense= "Low";
+		else if (defense>(highAttackPercentage+lowAttackPercentage) && defense<100)
+			printDefense = "Medium";
 	}
 
 }
