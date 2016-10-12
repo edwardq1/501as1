@@ -33,6 +33,7 @@ public class Manager
 		//instantiates the Attacker class and Defender class
 		Attacker attacker = new Attacker();
 		Defender defender = new Defender();
+		ImprovedDefender improvedDefender = new ImprovedDefender();
 		attacker.validateUserInput(highAttacks,lowAttacks,mediumAttacks);
 		//If the probability the user inputs doesnt equal 100, it will set a default value
 		if ((highAttacks+lowAttacks+mediumAttacks) != 100)
@@ -45,12 +46,12 @@ public class Manager
 		while (numberOfRounds > 0)
 		{
 			attacker.generateAttack(highAttacks,lowAttacks,mediumAttacks);
-			defender.getDefense(numberOfRounds, attacker.getAttack());
+			defender.getDefense(numberOfRounds, attacker.getAttack(), improvedDefender, defender);
 			numberOfRounds= numberOfRounds -1;
 		}
 		
 		
-		defender.printResults();
+		defender.printResults(attacker);
 			
 	
 		

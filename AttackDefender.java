@@ -1,9 +1,11 @@
-import java.util.Scanner;
 import java.util.Random;
 public class Attacker
 {
 	private int SUM;
 	private String typeAttack;
+	private int percentageOfHighAttacks;
+	private int percentageOfLowAttacks;
+	private int percentageOfMediumAttacks;
 	private Random generator;
 
 	// default values for SUM and typeAttack
@@ -11,6 +13,9 @@ public class Attacker
 	{
 		SUM=0;
 		typeAttack="";
+		percentageOfHighAttacks=0;
+		percentageOfLowAttacks=0;
+		percentageOfMediumAttacks=0;
 		generator = new Random();
 	}
 		
@@ -21,6 +26,7 @@ public class Attacker
 	{
 		int attack = generator.nextInt(99) + 1;
 		determineAttack(highAttackProbability, lowAttackProbability, mediumAttackProbability, attack);
+		incrementAttack();
 	}
 	
 	public void determineAttack(int highAttack, int lowAttack, int mediumAttack, int attack){
@@ -50,7 +56,28 @@ public class Attacker
 			System.out.println("You have " + mediumAttackPercentage + "% medium attacks.");
 		}
 	}
+
+	public void incrementAttack(){
+		if ("High" == typeAttack)
+			percentageOfHighAttacks++;
+		else if ("Low" == typeAttack)
+			percentageOfLowAttacks++;
+		else
+			percentageOfMediumAttacks++;
+	}
 	
+	public int getLowAttacks()
+	{
+		return(percentageOfLowAttacks);
+	}
+	public int getHighAttacks()
+	{
+		return(percentageOfHighAttacks);
+	}
+	public int getMediumAttacks()
+	{
+		return(percentageOfMediumAttacks);
+	}
 	//Returns the type of attack
 	public String getAttack()
 	{
