@@ -20,7 +20,7 @@ public class Defender {
 		numberOfMediumBlocks=0;
 		generator = new Random();
 	}
-		//this method will generate a value between 1-3 and determine whether its a high
+	//this method will generate a value between 1-3 and determine whether its a high
 	//low or medium defence. It will only random generate a defence move 20 times 
 	//then it will start recognizing the attacks and be smart about the defence moves.
 	public void getDefense(int rounds, String attack, ImprovedDefender improved, Defender defender)
@@ -32,8 +32,8 @@ public class Defender {
 		}
 		else{
 			improved.trackEnemyAttacks(rounds, attack, defender);
-			determineHitOrBlock(attack);
 			improvedDefenseMove(attack);
+			determineHitOrBlock(attack);
 		}
 	}
 	
@@ -103,5 +103,16 @@ public class Defender {
 	public void setDefense(String move){
 		printDefense = move;
 	}
-	
+	public int getNumberOfAttacksBlocked(){
+		return numberOfAttacksBlocked;
+	}
+	public int getNumberOfLowAttacksBlocked(){
+		return numberOfLowBlocks;
+	}
+	public int getNumberOfHighAttacksBlocked(){
+		return numberOfHighBlocks;
+	}
+	public int getNumberOfMediumAttacksBlocked(){
+		return numberOfMediumBlocks;
+	}
 }
