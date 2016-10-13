@@ -34,7 +34,7 @@ public class Manager
 		{
 			attacker.generateAttack(highAttacks,lowAttacks,mediumAttacks);
 			defender.getDefense(numberOfRounds, attacker.getAttack(), improvedDefender, defender);
-			numberOfRounds= numberOfRounds -1;
+			numberOfRounds--;
 		}
 		defender.printResults(attacker);
 	}
@@ -51,9 +51,9 @@ public class Manager
 			highAttacks=attacker.getDefaultHighAttack();
 			lowAttacks=attacker.getDefaultLowAttack();
 			mediumAttacks=attacker.getDefaultMediumAttack();
-			System.out.println("You have " + highAttackPercentage + "% high attacks.");
-			System.out.println("You have " + lowAttackPercentage + "% low attacks.");
-			System.out.println("You have " + mediumAttackPercentage + "% medium attacks.");
+			System.out.println("You have " + highAttacks + "% high attacks.");
+			System.out.println("You have " + lowAttacks + "% low attacks.");
+			System.out.println("You have " + mediumAttacks + "% medium attacks.");
 		}
 	}
 	
@@ -68,6 +68,18 @@ public class Manager
 			numberOfRounds=10;
 			System.out.print("The rounds you have entered is not in range, by default the rounds is set to 10.");
 		}
+	}
+	
+	public int getLowAttacks(){
+		return lowAttacks;
+	}
+	
+	public int getMediumAttacks(){
+		return mediumAttacks;
+	}
+	
+	public int getHighAttacks(){
+		return highAttacks;
 	}
 	
 	
